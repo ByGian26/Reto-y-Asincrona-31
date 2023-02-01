@@ -6,7 +6,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentsModule } from './components/components.module';
 import {HttpClientModule} from '@angular/common/http';
-import { DialogEditComponent } from './principal/dialog-edit/dialog-edit.component'
+import { DialogEditComponent } from './components/dialog-edit/dialog-edit.component'
+import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -20,6 +22,8 @@ import { DialogEditComponent } from './principal/dialog-edit/dialog-edit.compone
     ComponentsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
+    MatDialogModule
 
     ],  providers: [],
   bootstrap: [AppComponent]

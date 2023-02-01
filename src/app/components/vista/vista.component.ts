@@ -4,8 +4,12 @@ import { Userts } from '../../models/userts';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import { DialogEditComponent } from 'src/app/principal/dialog-edit/dialog-edit.component';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { DialogEditComponent } from '../dialog-edit/dialog-edit.component';
 
 @Component({
   selector: 'app-vista',
@@ -61,14 +65,16 @@ export class VistaComponent {
   }
 
   getrow(row: any) {
-    console.log(row);
+    // console.log(row);
   }
   FunctionEdit(element: Userts) {
     const dialogRef = this.dialog.open(DialogEditComponent, {
-      data: {element},
+      data: element,
+      width: '700px',
+
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       const idActualizar = result.id;
       const index = this.users.findIndex((item) => item.id === idActualizar);

@@ -12,11 +12,24 @@ import { Userts } from 'src/app/models/userts';
   styleUrls: ['./dialog-edit.component.css'],
 })
 export class DialogEditComponent {
+  element: Userts = {
+    id: 0,
+    title: '',
+    state: '',
+    url: '',
+    created_at: '',
+    updated_at: '',
+  };
   constructor(
     public dialogRef: MatDialogRef<DialogEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public element: Userts
-  ) {}
-
+    @Inject(MAT_DIALOG_DATA) public data: Userts,
+  ) {};
+  ngOnInit(): void {
+    if (this.data.url != '') {
+      this.element = this.data;
+      console.log('Edit Mode');
+    }
+  }
   onNoClick(): void {
     this.dialogRef.close();
   }
