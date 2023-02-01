@@ -4,50 +4,95 @@ import { Userts } from '../../models/userts';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-
-
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { DialogEditComponent } from 'src/app/principal/dialog-edit/dialog-edit.component';
 
 @Component({
   selector: 'app-vista',
   templateUrl: './vista.component.html',
-  styleUrls: ['./vista.component.css']
+  styleUrls: ['./vista.component.css'],
 })
 export class VistaComponent {
-  displayedColumns: string[] = ['Id', 'Title', 'State','Url', 'Created', 'Update', 'Options'];
+  displayedColumns: string[] = [
+    'Id',
+    'Title',
+    'State',
+    'Url',
+    'Created',
+    'Update',
+    'Options',
+  ];
   dataSource: any;
-
+  users: Userts[] = [];
   // Pagination
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!:MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private http: AllUserService){
-
-  }
+  constructor(private http: AllUserService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.http.getVista().subscribe({
-      next:(user: Userts[])=>{
-
+      next: (user: Userts[]) => {
+        this.users = user;
         // guardando en el dataSource mi respuesta
-        this.dataSource = new MatTableDataSource<Userts>(user)
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        console.log(this.dataSource);
-      }
-    })
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
+        // console.log(this.dataSource);
+      },
+      complete: () => {
+        this.dibujarTabla();
+      },
+    });
   }
 
-  Filterchange(event: Event){
+  dibujarTabla() {
+    this.dataSource = new MatTableDataSource<Userts>(this.users);
+
+    // this.dataSource = new MatTableDataSource<Userts>(this.dataSource);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  Filterchange(event: Event) {
     const filvalue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter= filvalue;
+    this.dataSource.filter = filvalue;
   }
 
-  getrow(row:any){
-    console.log(row)
+  getrow(row: any) {
+    console.log(row);
   }
-  FunctionEdit(id: any){
-    console.log(id)
+  FunctionEdit(element: Userts) {
+    const dialogRef = this.dialog.open(DialogEditComponent, {
+      data: {element},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      const idActualizar = result.id;
+      const index = this.users.findIndex((item) => item.id === idActualizar);
+      this.users[index] = result;
+    });
+  }
+
+  refresh() {
+    this.http.getVista().subscribe({
+      next: (user: Userts[]) => {
+        this.users = user;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+      complete: () => {
+        this.dibujarTabla();
+      },
+    });
+  }
+
+  FunctionDelete(id: any) {
+    console.log(id);
+    this.users = this.users.filter((item) => item.id !== id);
+    this.dibujarTabla();
   }
 }

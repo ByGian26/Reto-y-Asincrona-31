@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentsModule } from './components/components.module';
-import {HttpClientModule} from '@angular/common/http'
+import {HttpClientModule} from '@angular/common/http';
+import { DialogEditComponent } from './principal/dialog-edit/dialog-edit.component'
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DialogEditComponent
   ],
   imports: [
     BrowserModule,

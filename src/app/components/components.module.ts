@@ -11,6 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {FormsModule} from '@angular/forms'
 import {MatIconModule} from '@angular/material/icon';
 import { ButtonModule } from 'primeng/button';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ButtonModule } from 'primeng/button';
     MatSortModule,
     MatButtonModule,
     MatIconModule,
-    ButtonModule
+    ButtonModule,
+    MatDialogModule
   ],
   exports:[
     VistaComponent
